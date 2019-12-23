@@ -15,11 +15,19 @@ function BookCard(props) {
           <div className="card-body">
             <h5 className="card-title">{props.title}</h5>
             <h6 className="card-title">{props.subtitle}</h6>
-
-            <p className="card-text">{props.description}</p>
             <p className="card-text">
               <small className="text-muted">{props.authors}</small>
             </p>
+            <p className="card-text">{props.description}</p>
+          </div>
+          <div className="card-footer bg-transparent border-transparent">
+            <button
+              type="button"
+              className="btn btn-primary"
+              onClick={() => props.handleSave(props.id)}
+            >
+              Save
+            </button>
           </div>
         </div>
       </div>

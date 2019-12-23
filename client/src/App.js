@@ -5,6 +5,7 @@ import Detail from "./pages/Saved";
 import BookCard from "./components/BookCard";
 import NoMatch from "./pages/NoMatch";
 import Nav from "./components/Nav";
+import API from "./utils/API";
 
 class App extends React.Component {
   state = {
@@ -41,6 +42,26 @@ class App extends React.Component {
     });
   };
 
+  handleSave = id => {
+    console.log("clicking");
+    console.log(id);
+    let bookIndex = this.state.books.findIndex(book => book.id === id);
+    let bookToSave = this.state.books[bookIndex];
+    let bookObject = {
+      id: bookToSave.id,
+      title: bookToSave.volumeInfo.title,
+      subtitle: bookToSave.volumeInfo.subtitle,
+      authors: bookToSave.volumeInfo.authors,
+      description: bookToSave.volumeInfo.description,
+      image:
+        bookToSave.volumeInfo.imageLinks &&
+        bookToSave.volumeInfo.imageLinks.thumbnail
+    };
+    console.log(bookObject);
+
+    API.saveBook(bookObject).then(res => res);
+  };
+
   render() {
     const { books, searchQuery } = this.state;
     return (
@@ -66,6 +87,7 @@ class App extends React.Component {
             {this.state.books.map(book => (
               <BookCard
                 key={book.id}
+                id={book.id}
                 title={book.volumeInfo.title}
                 subtitle={book.volumeInfo.subtitle}
                 authors={book.volumeInfo.authors}
@@ -74,6 +96,7 @@ class App extends React.Component {
                   book.volumeInfo.imageLinks &&
                   book.volumeInfo.imageLinks.thumbnail
                 }
+                handleSave={this.handleSave}
               />
             ))}
           </div>
